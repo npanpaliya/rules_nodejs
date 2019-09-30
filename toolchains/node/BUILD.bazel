@@ -41,6 +41,14 @@ platform(
     ],
 )
 
+platform(
+    name = "linux_ppc64le",
+    constraint_values = [
+        "@bazel_tools//platforms:linux",
+        "@bazel_tools//platforms:ppc",
+    ],
+)
+
 bzl_library(
     name = "bzl",
     srcs = glob(["*.bzl"]),
@@ -65,6 +73,7 @@ alias(
         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64_config//:toolchain",
         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64_config//:toolchain",
         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64_config//:toolchain",
+        "@bazel_tools//src/conditions:linux_ppc64le": "@nodejs_ppclinux_ppc64le_config//:toolchain",
         "//conditions:default": "@nodejs_linux_amd64_config//:toolchain",
     }),
     visibility = ["//visibility:public"],
@@ -78,6 +87,7 @@ alias(
         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64//:node_bin",
         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64//:node_bin",
         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64//:node_bin",
+        "@bazel_tools//src/conditions:linux_ppc64le": "@nodejs_ppclinux_ppc64le_config//:node_bin",
         "//conditions:default": "@nodejs_linux_amd64//:node_bin",
     }),
     visibility = ["//visibility:public"],
@@ -112,3 +122,14 @@ toolchain(
     toolchain = "@nodejs_windows_amd64_config//:toolchain",
     toolchain_type = ":toolchain_type",
 )
+
+toolchain(
+    name = "node_ppclinux_toolchain",
+    target_compatible_with = [
+        "@bazel_tools//platforms:linux",
+        "@bazel_tools//platforms/cpu:ppc",
+    ],
+    toolchain = "@nodejs_ppclinux_ppc64le_config//:toolchain",
+    toolchain_type = ":toolchain_type",
+)
+

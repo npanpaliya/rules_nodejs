@@ -19,6 +19,7 @@ OS_ARCH_NAMES = [
     ("darwin", "amd64"),
     ("windows", "amd64"),
     ("linux", "amd64"),
+    ("ppclinux", "ppc64le"),
 ]
 
 OS_NAMES = ["_".join(os_arch_name) for os_arch_name in OS_ARCH_NAMES]
@@ -39,6 +40,8 @@ def os_name(rctx):
         return OS_NAMES[1]
     elif os_name.startswith("linux"):
         return OS_NAMES[2]
+    elif os_name.startswith("ppc"):
+        return OS_NAMES[3]
     else:
         fail("Unsupported operating system: " + os_name)
 
@@ -49,4 +52,4 @@ def is_windows_os(rctx):
     return os_name(rctx) == OS_NAMES[1]
 
 def is_linux_os(rctx):
-    return os_name(rctx) == OS_NAMES[2]
+    return os_name(rctx) == OS_NAMES[2] or os_name(rctx) == OS_NAMES[3]

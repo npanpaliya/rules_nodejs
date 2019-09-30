@@ -78,6 +78,7 @@ _ATTRS = {
             "10.16.0-darwin_amd64": ("node-v10.16.0-darwin-x64.tar.gz", "node-v10.16.0-darwin-x64", "6c009df1b724026d84ae9a838c5b382662e30f6c5563a0995532f2bece39fa9c"),
             "10.16.0-linux_amd64": ("node-v10.16.0-linux-x64.tar.xz", "node-v10.16.0-linux-x64", "1827f5b99084740234de0c506f4dd2202a696ed60f76059696747c34339b9d48"),
             "10.16.0-windows_amd64": ("node-v10.16.0-win-x64.zip", "node-v10.16.0-win-x64", "aa22cb357f0fb54ccbc06b19b60e37eefea5d7dd9940912675d3ed988bf9a059"),
+            "10.16.0-linux_ppc64le": ("node-v10.16.0-linux-ppc64le.tar.xz", "node-v10.16.0-linux-ppc64le", "b26136556fa79a3b58d0864afb455eb0c581647bd059999c69c42d27ef5afe7a"),
             # 10.3.0
             "10.3.0-darwin_amd64": ("node-v10.3.0-darwin-x64.tar.gz", "node-v10.3.0-darwin-x64", "0bb5b7e3fe8cccda2abda958d1eb0408f1518a8b0cb58b75ade5d507cd5d6053"),
             "10.3.0-linux_amd64": ("node-v10.3.0-linux-x64.tar.xz", "node-v10.3.0-linux-x64", "eb3c3e2585494699716ad3197c8eedf4003d3f110829b30c5a0dc34414c47423"),
@@ -651,6 +652,7 @@ def node_repositories(package_json = [], **kwargs):
     for os_arch_name in OS_ARCH_NAMES:
         os_name = "_".join(os_arch_name)
         node_repository_name = "nodejs_%s" % os_name
+        print("Node repository_name: {}".format(node_repository_name))
         _maybe(
             node_repositories_rule,
             name = node_repository_name,
