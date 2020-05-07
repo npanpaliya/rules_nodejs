@@ -19,6 +19,7 @@ OS_ARCH_NAMES = [
     ("darwin", "amd64"),
     ("windows", "amd64"),
     ("linux", "amd64"),
+    ("linux", "ppc64le"),
 ]
 
 OS_NAMES = ["_".join(os_arch_name) for os_arch_name in OS_ARCH_NAMES]
@@ -33,10 +34,13 @@ def os_name(rctx):
       A string describing the os for a repository rule
     """
     os_name = rctx.os.name.lower()
+    print("OS name in os_name call: ", os_name)
     if os_name.startswith("mac os"):
         return OS_NAMES[0]
     elif os_name.find("windows") != -1:
         return OS_NAMES[1]
+    elif "ppc" in os_name:
+        return OS_NAMES[3]
     elif os_name.startswith("linux"):
         return OS_NAMES[2]
     else:

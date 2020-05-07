@@ -34,6 +34,14 @@ platform(
 )
 
 platform(
+    name = "linux_ppc64le",
+    constraint_values = [
+        "@bazel_tools//platforms:linux",
+        "@bazel_tools//platforms:ppc",
+    ],
+)
+
+platform(
     name = "windows_amd64",
     constraint_values = [
         "@bazel_tools//platforms:windows",
@@ -64,6 +72,7 @@ alias(
         "@bazel_tools//src/conditions:darwin": "@nodejs_darwin_amd64_config//:toolchain",
         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64_config//:toolchain",
         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64_config//:toolchain",
+        "@bazel_tools//src/conditions:linux_ppc": "@nodejs_linux_ppc64le_config//:toolchain",
         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64_config//:toolchain",
         "//conditions:default": "@nodejs_linux_amd64_config//:toolchain",
     }),
@@ -77,6 +86,7 @@ alias(
         "@bazel_tools//src/conditions:darwin": "@nodejs_darwin_amd64//:node_bin",
         "@bazel_tools//src/conditions:darwin_x86_64": "@nodejs_darwin_amd64//:node_bin",
         "@bazel_tools//src/conditions:linux_x86_64": "@nodejs_linux_amd64//:node_bin",
+        "@bazel_tools//src/conditions:linux_ppc": "@nodejs_linux_ppc64le//:node_bin",
         "@bazel_tools//src/conditions:windows": "@nodejs_windows_amd64//:node_bin",
         "//conditions:default": "@nodejs_linux_amd64//:node_bin",
     }),
@@ -84,12 +94,22 @@ alias(
 )
 
 toolchain(
-    name = "node_linux_toolchain",
+    name = "node_linux_amd64_toolchain",
     target_compatible_with = [
         "@bazel_tools//platforms:linux",
         "@bazel_tools//platforms:x86_64",
     ],
     toolchain = "@nodejs_linux_amd64_config//:toolchain",
+    toolchain_type = ":toolchain_type",
+)
+
+toolchain(
+    name = "node_linux_ppc64le_toolchain",
+    target_compatible_with = [
+        "@bazel_tools//platforms:linux",
+        "@bazel_tools//platforms:ppc",
+    ],
+    toolchain = "@nodejs_linux_ppc64le_config//:toolchain",
     toolchain_type = ":toolchain_type",
 )
 

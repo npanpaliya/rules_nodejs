@@ -108,6 +108,7 @@ _ATTRS = {
             "12.13.0-darwin_amd64": ("node-v12.13.0-darwin-x64.tar.gz", "node-v12.13.0-darwin-x64", "49a7374670a111b033ce16611b20fd1aafd3296bbc662b184fe8fb26a29c22cc"),
             "12.13.0-linux_amd64": ("node-v12.13.0-linux-x64.tar.xz", "node-v12.13.0-linux-x64", "7a57ef2cb3036d7eacd50ae7ba07245a28336a93652641c065f747adb2a356d9"),
             "12.13.0-windows_amd64": ("node-v12.13.0-win-x64.zip", "node-v12.13.0-win-x64", "6f920cebeecb4957b4ef0def6d9b04c49d4582864f8d1a207ce8d0665865781a"),
+            "12.13.0-linux_ppc64le": ("node-v12.13.0-linux-ppc64le.tar.gz", "node-v12.13.0-linux-ppc64le", "5943b35744921137078a3af71cda2abdc28372adbba7ccb138e840c9bbcfcb43"),
             # When adding a new version. please update /docs/install.md
         },
         doc = """Custom list of node repositories to use
@@ -254,6 +255,7 @@ BUILT_IN_NODE_PLATFORMS = [
     "darwin_amd64",
     "linux_amd64",
     "windows_amd64",
+    "linux_ppc64le",
 ]
 
 NODE_EXTRACT_DIR = "bin/nodejs"
@@ -748,13 +750,15 @@ def node_repositories(**kwargs):
     # This needs to be setup so toolchains can access nodejs for all different versions
     for os_arch_name in OS_ARCH_NAMES:
         os_name = "_".join(os_arch_name)
+        print("OS Name: %s".format(os_name))
+        print("OS_arch_name[0]: %s".format(os_arch_name))
         node_repository_name = "nodejs_%s" % os_name
         _maybe(
             node_repositories_rule,
             name = node_repository_name,
             **kwargs
         )
-        native.register_toolchains("@build_bazel_rules_nodejs//toolchains/node:node_%s_toolchain" % os_arch_name[0])
+        native.register_toolchains("@build_bazel_rules_nodejs//toolchains/node:node_%s_toolchain" % os_name)
         node_toolchain_configure(
             name = "%s_config" % node_repository_name,
             target_tool = "@%s//:node_bin" % node_repository_name,
